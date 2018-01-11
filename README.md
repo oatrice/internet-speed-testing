@@ -6,7 +6,7 @@ To include in your project, add this to your build.gradle file:
 implementation 'com.github.oatrice:internet-speed-testing:1.0.0'
 ```
 
-![Demo](screenshot/screen1.jpg)
+![Demo](screenshot/screen1.png)
 
 ## Usage
 ```
