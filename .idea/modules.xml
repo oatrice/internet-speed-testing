@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Internet-Speed_Testing.iml" filepath="$PROJECT_DIR$/Internet-Speed_Testing.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/internet-speed-testing/internet-speed-testing.iml" filepath="$PROJECT_DIR$/internet-speed-testing/internet-speed-testing.iml" />
     </modules>
   </component>
 </project>
