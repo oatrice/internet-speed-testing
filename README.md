@@ -1,4 +1,4 @@
-# internet-speed-testing
+# Internet Speed Testing Library
 This library base on https://github.com/bertrandmartel/speed-test-lib
 
 To include in your project, add this to your build.gradle file:
