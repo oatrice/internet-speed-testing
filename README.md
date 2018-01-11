@@ -3,6 +3,20 @@ This library base on https://github.com/bertrandmartel/speed-test-lib
 
 To include in your project, add this to your build.gradle file:
 ```
+//build.gradle [project module]
+
+allprojects {
+    repositories {
+        jcenter()
+        maven { url "https://jitpack.io" }
+    }
+}
+```
+
+
+```
+//build.gradle [app module]
+
 implementation 'com.github.oatrice:internet-speed-testing:1.0.1'
 ```
 
