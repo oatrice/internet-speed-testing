@@ -25,24 +25,24 @@ implementation 'com.github.oatrice:internet-speed-testing:1.0.1'
 ## Usage
 ```
 InternetSpeedBuilder builder = new InternetSpeedBuilder(this);
-        builder.setOnEventInternetSpeedListener(new InternetSpeedBuilder.OnEventInternetSpeedListener() {
-            @Override
-            public void onDownloadProgress(int count, ProgressionModel progressModel) {
+builder.setOnEventInternetSpeedListener(new InternetSpeedBuilder.OnEventInternetSpeedListener() {
+    @Override
+    public void onDownloadProgress(int count, ProgressionModel progressModel) {
 
-            }
+    }
 
-            @Override
-            public void onUploadProgress(int count, ProgressionModel progressModel) {
+    @Override
+    public void onUploadProgress(int count, ProgressionModel progressModel) {
 
-            }
+    }
 
-            @Override
-            public void onTotalProgress(int count, ProgressionModel progressModel) {
-                adapter.setDataList(count, progressModel);
+    @Override
+    public void onTotalProgress(int count, ProgressionModel progressModel) {
+        adapter.setDataList(count, progressModel);
 
-            }
-        });
-        builder.start("http://2.testdebit.info/fichiers/1Mo.dat", 2);
+    }
+});
+builder.start("http://2.testdebit.info/fichiers/1Mo.dat", 2);
 ```
 
 ## Contributing
