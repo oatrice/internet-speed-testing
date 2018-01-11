@@ -6,14 +6,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.internet_speed_testing.ProgressionModel;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class Adapter extends RecyclerView.Adapter<Adapter.MyViewHolder> {
 
-    private List<SpeedModel> dataList = new ArrayList<>();
+    private List<ProgressionModel> dataList = new ArrayList<>();
 
-    public void setDataList(int position, SpeedModel data) {
+    public void setDataList(int position, ProgressionModel data) {
         if (dataList.size() <= position) {
             dataList.add(data);
 
@@ -59,10 +61,10 @@ public class Adapter extends RecyclerView.Adapter<Adapter.MyViewHolder> {
             tvUpload = itemView.findViewById(R.id.tvUpload);
         }
 
-        void bind(SpeedModel speedModel) {
-            tvProgress.setText("" + speedModel.progress);
-            tvDownload.setText("" + speedModel.downloadSpeed);
-            tvUpload.setText("" + speedModel.uploadSpeed);
+        void bind(ProgressionModel progressionModel) {
+            tvProgress.setText("" + progressionModel.getProgressTotal());
+            tvDownload.setText("" + progressionModel.getDownloadSpeed());
+            tvUpload.setText("" + progressionModel.getUploadSpeed());
         }
     }
 }

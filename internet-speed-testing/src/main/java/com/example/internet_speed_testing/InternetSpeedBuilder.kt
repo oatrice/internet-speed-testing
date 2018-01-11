@@ -1,5 +1,6 @@
 package com.example.internet_speed_testing
 
+import android.app.Activity
 import android.os.AsyncTask
 import android.util.Log
 import fr.bmartel.speedtest.SpeedTestReport
@@ -7,18 +8,20 @@ import fr.bmartel.speedtest.SpeedTestSocket
 import fr.bmartel.speedtest.inter.ISpeedTestListener
 import fr.bmartel.speedtest.model.SpeedTestError
 
-class InternetSpeedBuilder {
+class InternetSpeedBuilder(var activity: Activity) {
 
     private var countTestSpeed = 0
-
-    var LIMIT = 3
+    private var LIMIT = 3
     lateinit var url: String
     lateinit var javaListener: OnEventInternetSpeedListener
     lateinit var onDownloadProgressListener: ()->Unit
     lateinit var onUploadProgressListener: ()->Unit
     lateinit var onTotalProgressListener: ()->Unit
+    private lateinit var progressModel: ProgressionModel
 
-    fun start(url: String) {
+    fun start(url: String, limitCount: Int) {
+        this.url = url
+        this.LIMIT = limitCount
         startTestDownload()
     }
 
@@ -34,7 +37,7 @@ class InternetSpeedBuilder {
 
 
     private fun startTestDownload() {
-//        speedModel = ProgressionModel(0f, 0f, 0f,  BigDecimal(0), BigDecimal(0))
+        progressModel = ProgressionModel()
         SpeedDownloadTestTask().execute()
     }
 
@@ -44,15 +47,16 @@ class InternetSpeedBuilder {
     }
 
     interface OnEventInternetSpeedListener {
-        fun onDownloadProgress(progressModel: ProgressionModel)
-        fun onUploadProgress(progressModel: ProgressionModel)
-        fun onTotalProgress(progressModel: ProgressionModel)
+        fun onDownloadProgress(count: Int, progressModel: ProgressionModel)
+        fun onUploadProgress(count: Int, progressModel: ProgressionModel)
+        fun onTotalProgress(count: Int, progressModel: ProgressionModel)
     }
 
     inner class SpeedDownloadTestTask : AsyncTask<Void, Void, String>() {
 
-        private val downloadProgressModel = ProgressionModel()
-        private val totalProgressModel = ProgressionModel()
+        override fun onPreExecute() {
+            super.onPreExecute()
+        }
 
         override fun doInBackground(vararg params: Void): String? {
 
@@ -66,7 +70,7 @@ class InternetSpeedBuilder {
                     Log.v("speedtest Download" + countTestSpeed, "[COMPLETED] rate in octet/s : " + report.transferRateOctet)
                     Log.v("speedtest Download" + countTestSpeed, "[COMPLETED] rate in bit/s   : " + report.transferRateBit)
 
-                    downloadProgressModel.progressTotal = 50f
+                    /*downloadProgressModel.progressTotal = 50f
                     downloadProgressModel.progressDownload = 100f
                     downloadProgressModel.downloadSpeed = report.transferRateBit
 
@@ -74,8 +78,11 @@ class InternetSpeedBuilder {
                     totalProgressModel.progressDownload = 100f
                     totalProgressModel.downloadSpeed = report.transferRateBit
 
-                    javaListener.onDownloadProgress(downloadProgressModel)
-                    javaListener.onTotalProgress(totalProgressModel)
+                    activity.runOnUiThread {
+                        javaListener.onDownloadProgress(countTestSpeed, downloadProgressModel)
+                        javaListener.onTotalProgress(countTestSpeed, totalProgressModel)
+
+                    }*/
 
                     startTestUpload()
 
@@ -91,18 +98,15 @@ class InternetSpeedBuilder {
                     Log.v("speedtest Download" + countTestSpeed, "[PROGRESS] rate in octet/s : " + report.transferRateOctet)
                     Log.v("speedtest Download" + countTestSpeed, "[PROGRESS] rate in bit/s   : " + report.transferRateBit)
 
-                    val downloadProgressModel = ProgressionModel()
-                    downloadProgressModel.progressTotal = percent / 2
-                    downloadProgressModel.progressDownload = percent
-                    downloadProgressModel.downloadSpeed = report.transferRateBit
+                    progressModel.progressTotal = percent / 2
+                    progressModel.progressDownload = percent
+                    progressModel.downloadSpeed = report.transferRateBit
 
-                    val totalProgressModel = ProgressionModel()
-                    totalProgressModel.progressTotal = percent / 2
-                    totalProgressModel.progressDownload = percent
-                    totalProgressModel.downloadSpeed = report.transferRateBit
+                    activity.runOnUiThread {
+                        javaListener.onDownloadProgress(countTestSpeed, progressModel)
+                        javaListener.onTotalProgress(countTestSpeed, progressModel)
+                    }
 
-                    javaListener.onDownloadProgress(downloadProgressModel)
-                    javaListener.onTotalProgress(totalProgressModel)
                 }
             })
 
@@ -113,8 +117,6 @@ class InternetSpeedBuilder {
     }
 
     inner class SpeedUploadTestTask : AsyncTask<Void, Void, Void>() {
-
-        private val progressModel = ProgressionModel()
 
         override fun doInBackground(vararg params: Void): Void? {
 
@@ -128,12 +130,15 @@ class InternetSpeedBuilder {
                     Log.v("speedtest Upload" + countTestSpeed, "[COMPLETED] rate in octet/s : " + report.transferRateOctet)
                     Log.v("speedtest Upload" + countTestSpeed, "[COMPLETED] rate in bit/s   : " + report.transferRateBit)
 
-                    progressModel.progressTotal = 100f
-                    progressModel.progressDownload = 100f
-                    progressModel.downloadSpeed = report.transferRateBit
+                    /*progressModel.progressTotal = 100f
+                    progressModel.progressUpload= 100f
+                    progressModel.uploadSpeed = report.transferRateBit
 
-                    javaListener.onUploadProgress(progressModel)
-                    javaListener.onTotalProgress(progressModel)
+                    activity.runOnUiThread {
+                        javaListener.onUploadProgress(countTestSpeed, progressModel)
+                        javaListener.onTotalProgress(countTestSpeed, progressModel)
+                    }*/
+
 
                     countTestSpeed++
                     if (countTestSpeed < LIMIT) {
@@ -152,11 +157,18 @@ class InternetSpeedBuilder {
                     Log.v("speedtest Upload" + countTestSpeed, "[PROGRESS] rate in bit/s   : " + report.transferRateBit)
 
                     progressModel.progressTotal = percent / 2 + 50
-                    progressModel.progressUpload= percent
-                    progressModel.downloadSpeed = report.transferRateBit
+                    progressModel.progressUpload = percent
+                    progressModel.uploadSpeed= report.transferRateBit
 
-                    javaListener.onUploadProgress(progressModel)
-                    javaListener.onTotalProgress(progressModel)
+                    activity.runOnUiThread {
+
+                        if (countTestSpeed < LIMIT) {
+                            javaListener.onUploadProgress(countTestSpeed, progressModel)
+                            javaListener.onTotalProgress(countTestSpeed, progressModel)
+
+                        }
+                    }
+
                 }
             })
 
