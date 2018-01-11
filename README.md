@@ -3,7 +3,7 @@ This library base on https://github.com/bertrandmartel/speed-test-lib
 
 To include in your project, add this to your build.gradle file:
 ```
-implementation 'com.github.oatrice:internet-speed-testing:1.0.0'
+implementation 'com.github.oatrice:internet-speed-testing:1.0.1'
 ```
 
 ![Demo](screenshot/screen1.gif)
