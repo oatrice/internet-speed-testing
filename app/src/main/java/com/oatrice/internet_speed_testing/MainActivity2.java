@@ -7,9 +7,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 
-import com.example.internet_speed_testing.InternetSpeedBuilder;
-import com.example.internet_speed_testing.ProgressionModel;
-
 import java.math.BigDecimal;
 
 import fr.bmartel.speedtest.SpeedTestReport;
@@ -17,7 +14,7 @@ import fr.bmartel.speedtest.SpeedTestSocket;
 import fr.bmartel.speedtest.inter.ISpeedTestListener;
 import fr.bmartel.speedtest.model.SpeedTestError;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity2 extends AppCompatActivity {
 
     int countTestSpeed = 0;
     int LIMIT = 3;
@@ -38,26 +35,6 @@ public class MainActivity extends AppCompatActivity {
         adapter = new Adapter();
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
-
-        InternetSpeedBuilder builder = new InternetSpeedBuilder();
-        builder.setOnEventInternetSpeedListener(new InternetSpeedBuilder.OnEventInternetSpeedListener() {
-            @Override
-            public void onDownloadProgress(ProgressionModel progressModel) {
-
-            }
-
-            @Override
-            public void onUploadProgress(ProgressionModel progressModel) {
-
-            }
-
-            @Override
-            public void onTotalProgress(ProgressionModel progressModel) {
-
-            }
-        });
-        builder.setLIMIT(10);
-        builder.start("http://2.testdebit.info/fichiers/1Mo.dat");
 
     }
 
