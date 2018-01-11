@@ -42,7 +42,7 @@ public class MainJavaActivity extends AppCompatActivity {
 
             }
         });
-        builder.start("http://2.testdebit.info/fichiers/1Mo.dat", 2);
+        builder.start("http://2.testdebit.info/fichiers/1Mo.dat", 20);
 
     }
 
