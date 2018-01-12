@@ -8,6 +8,10 @@ import android.support.v7.widget.RecyclerView;
 import com.example.internet_speed_testing.InternetSpeedBuilder;
 import com.example.internet_speed_testing.ProgressionModel;
 
+import org.jetbrains.annotations.NotNull;
+
+import fr.bmartel.speedtest.model.SpeedTestError;
+
 public class MainJavaActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
@@ -26,6 +30,7 @@ public class MainJavaActivity extends AppCompatActivity {
 
         InternetSpeedBuilder builder = new InternetSpeedBuilder(this);
         builder.setOnEventInternetSpeedListener(new InternetSpeedBuilder.OnEventInternetSpeedListener() {
+
             @Override
             public void onDownloadProgress(int count, ProgressionModel progressModel) {
 
@@ -41,8 +46,27 @@ public class MainJavaActivity extends AppCompatActivity {
                 adapter.setDataList(count, progressModel);
 
             }
+
+            @Override
+            public void onUploadError(@NotNull SpeedTestError speedTestError, @NotNull String errorMessage) {
+
+            }
+
+            @Override
+            public void onDownloadError(@NotNull SpeedTestError speedTestError, @NotNull String errorMessage) {
+
+            }
         });
-        builder.start("http://2.testdebit.info/fichiers/1Mo.dat", 20);
+
+//        builder.startDownloadUpload("http://2.testdebit.info/fichiers/1Mo.dat", 20);
+
+        // Download and Upload 20 times
+        // Fixed duration 3 second
+        builder.startDownloadUpload(
+                "http://2.testdebit.info/fichiers/1Mo.dat",
+                "http://2.testdebit.info/",
+                20,
+                3000);
 
     }
 

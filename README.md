@@ -8,7 +8,7 @@ To include in your project, add this to your build.gradle file:
 allprojects {
     repositories {
         jcenter()
-        maven { url "https://jitpack.io" }
+        maven { downloadUrl "https://jitpack.io" }
     }
 }
 ```
@@ -42,7 +42,7 @@ builder.setOnEventInternetSpeedListener(new InternetSpeedBuilder.OnEventInternet
 
     }
 });
-builder.start("http://2.testdebit.info/fichiers/1Mo.dat", 2);
+builder.startDownloadUpload("http://2.testdebit.info/fichiers/1Mo.dat", 2);
 ```
 
 ## Contributing
