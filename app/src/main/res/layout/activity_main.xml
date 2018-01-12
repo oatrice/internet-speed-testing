@@ -6,33 +6,50 @@
     android:layout_height="match_parent"
     android:padding="10dp"
     tools:context=".MainJavaActivity">
-
+    
     <TextView
-        android:id="@+id/tvProgress"
+        android:text="Number"
+        android:id="@+id/tvNumber"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Progress"
-        android:textStyle="bold"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent" />
-
-    <TextView
-        android:id="@+id/tvUpload"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Download"
+        android:textSize="16sp"
         android:textStyle="bold"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"/>
+        app:layout_constraintRight_toLeftOf="@+id/tvDownload"
+        app:layout_constraintHorizontal_chainStyle="spread_inside"/>
 
     <TextView
+        android:text="Download"
         android:id="@+id/tvDownload"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Upload"
+        android:textSize="16sp"
         android:textStyle="bold"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toRightOf="@+id/tvNumber"
+        app:layout_constraintRight_toLeftOf="@+id/tvUpload"/>
+
+    <TextView
+        android:text="Upload"
+        android:id="@+id/tvUpload"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toRightOf="@+id/tvDownload"
+        app:layout_constraintRight_toLeftOf="@+id/tvProgress" />
+
+    <TextView
+        android:text="Progress"
+        android:id="@+id/tvProgress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toRightOf="@+id/tvUpload"
         app:layout_constraintRight_toRightOf="parent" />
 
     <android.support.v7.widget.RecyclerView
