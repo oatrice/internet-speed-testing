@@ -20,7 +20,7 @@ allprojects {
 implementation 'com.github.oatrice:internet-speed-testing:1.0.3'
 ```
 
-![Demo](screenshot/screen1.gif)
+![Demo](screenshot/screen2.gif)
 
 ## Usage
 ```java
