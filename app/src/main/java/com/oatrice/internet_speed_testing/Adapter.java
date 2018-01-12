@@ -74,10 +74,12 @@ public class Adapter extends RecyclerView.Adapter<Adapter.MyViewHolder> {
             String downloadDuration = String.format("%.2f", progressionModel.getDownloadDuration() / 1000f);
             String uploadDuration = String.format("%.2f", progressionModel.getUploadDuration() / 1000f);
 
+            String percent = String.format("%.2f", progressionModel.getProgressTotal());
+
             tvNumber.setText("" + ++position);
             tvDownload.setText(downloadSpeed + " KB/s\n" + downloadDuration + " s");
             tvUpload.setText(uploadSpeed + " KB/s\n" + uploadDuration + " s");
-            tvProgress.setText(progressionModel.getProgressTotal() + " %");
+            tvProgress.setText(percent + " %");
         }
     }
 }
