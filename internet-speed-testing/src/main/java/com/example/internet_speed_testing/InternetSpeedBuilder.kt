@@ -103,9 +103,9 @@ class InternetSpeedBuilder(var activity: Activity) {
 
                 override fun onReport(report: SpeedTestReport) {
                     // called when an upload report is dispatched
-                    Log.v("Speedtest Upload: " + report.requestNum, "[onReport] getProgressPercent : " + report.progressPercent)
-                    Log.v("Speedtest Upload: " + report.requestNum, "[onReport] rate in octet/s : " + report.transferRateOctet)
-                    Log.v("Speedtest Upload: " + report.requestNum, "[onReport] Time : " + (report.reportTime - report.startTime))
+                    Log.d("Speedtest Upload: " + report.requestNum, "[onReport] getProgressPercent : " + report.progressPercent)
+                    Log.d("Speedtest Upload: " + report.requestNum, "[onReport] rate in octet/s : " + report.transferRateOctet)
+                    Log.d("Speedtest Upload: " + report.requestNum, "[onReport] Time : " + (report.reportTime - report.startTime))
 
                     sendDownloadData(report)
                 }
@@ -156,9 +156,9 @@ class InternetSpeedBuilder(var activity: Activity) {
 
                 override fun onReport(report: SpeedTestReport) {
                     // called when an upload report is dispatched
-                    Log.v("Speedtest Upload: " + report.requestNum, "[onReport] getProgressPercent : " + report.progressPercent)
-                    Log.v("Speedtest Upload: " + report.requestNum, "[onReport] rate in octet/s : " + report.transferRateOctet)
-                    Log.v("Speedtest Upload: " + report.requestNum, "[onReport] Time : " + (report.reportTime - report.startTime))
+                    Log.d("Speedtest Upload: " + report.requestNum, "[onReport] getProgressPercent : " + report.progressPercent)
+                    Log.d("Speedtest Upload: " + report.requestNum, "[onReport] rate in octet/s : " + report.transferRateOctet)
+                    Log.d("Speedtest Upload: " + report.requestNum, "[onReport] Time : " + (report.reportTime - report.startTime))
 
                     sendUploadData(report)
                 }
