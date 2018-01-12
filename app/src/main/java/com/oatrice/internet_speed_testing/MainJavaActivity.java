@@ -58,15 +58,18 @@ public class MainJavaActivity extends AppCompatActivity {
             }
         });
 
-//        builder.startDownloadUpload("http://2.testdebit.info/fichiers/1Mo.dat", 20);
-
-        // Download and Upload 20 times
-        // Fixed duration 3 second
         builder.startDownloadUpload(
                 "http://2.testdebit.info/fichiers/1Mo.dat",
                 "http://2.testdebit.info/",
+                20);
+
+        // Download and Upload 20 times
+        // Fixed duration 3 second
+        /*builder.startDownloadUpload(
+                "http://2.testdebit.info/fichiers/1Mo.dat",
+                "http://2.testdebit.info/",
                 20,
-                3000);
+                10000);*/
 
     }
 

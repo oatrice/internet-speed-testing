@@ -10,6 +10,7 @@ import fr.bmartel.speedtest.model.SpeedTestError
 
 class InternetSpeedBuilder(var activity: Activity) {
 
+    private val UPLOAD_FILE_SIZE = 1 * 1024 * 1024 // 10 MB
     private val NOT_FIXED_DURATION = -1
 
     private var countTestSpeed = 0
@@ -72,6 +73,8 @@ class InternetSpeedBuilder(var activity: Activity) {
 
     inner class SpeedDownloadTestTask : AsyncTask<Void, Void, String>() {
 
+        val startTime = System.currentTimeMillis()
+
         override fun doInBackground(vararg params: Void): String? {
 
             val speedTestSocket = SpeedTestSocket()
@@ -81,8 +84,8 @@ class InternetSpeedBuilder(var activity: Activity) {
 
                 override fun onCompletion(report: SpeedTestReport) {
                     // called when download/upload is finished
-                    Log.v("Speedtest Download" + countTestSpeed, "[COMPLETED] rate in octet/s : " + report.transferRateOctet)
-                    Log.v("Speedtest Download" + countTestSpeed, "[COMPLETED] rate in bit/s   : " + report.transferRateBit)
+                    Log.v("Speedtest Download: " + countTestSpeed, "[COMPLETED] rate in octet/s : " + report.transferRateOctet)
+                    Log.v("Speedtest Download: " + countTestSpeed, "[COMPLETED] rate in bit/s   : " + report.transferRateBit)
 
                     /*downloadProgressModel.progressTotal = 50f
                     downloadProgressModel.progressDownload = 100f
@@ -104,21 +107,27 @@ class InternetSpeedBuilder(var activity: Activity) {
 
                 override fun onError(speedTestError: SpeedTestError, errorMessage: String) {
                     // called when a download/upload error occur
-                    Log.e("Speedtest Download" + countTestSpeed, "[ERROR] SpeedTestError : ${speedTestError.name}")
-                    Log.e("Speedtest Download" + countTestSpeed, "[ERROR] ErrorMessage : ${errorMessage}")
+                    Log.e("Speedtest Download: " + countTestSpeed, "[ERROR] SpeedTestError : ${speedTestError.name}")
+                    Log.e("Speedtest Download: " + countTestSpeed, "[ERROR] ErrorMessage : ${errorMessage}")
 
                     javaListener.onDownloadError(speedTestError, errorMessage)
                 }
 
                 override fun onProgress(percent: Float, report: SpeedTestReport) {
                     // called to notify download/upload progress
-                    Log.d("Speedtest Download" + countTestSpeed, "[PROGRESS] progress : $percent%")
-                    Log.d("Speedtest Download" + countTestSpeed, "[PROGRESS] rate in octet/s : " + report.transferRateOctet)
-                    Log.d("Speedtest Download" + countTestSpeed, "[PROGRESS] rate in bit/s   : " + report.transferRateBit)
+                    Log.d("Speedtest Download: " + countTestSpeed, "[PROGRESS] progress : $percent%")
+                    Log.d("Speedtest Download: " + countTestSpeed, "[PROGRESS] rate in octet/s : " + report.transferRateOctet)
+                    Log.d("Speedtest Download: " + countTestSpeed, "[PROGRESS] rate in bit/s   : " + report.transferRateBit)
 
+
+                    val endTime = System.currentTimeMillis()
+                    val diffTime = endTime - startTime
+
+                    progressModel.count = countTestSpeed
                     progressModel.progressTotal = percent / 2
                     progressModel.progressDownload = percent
                     progressModel.downloadSpeed = report.transferRateBit
+                    progressModel.downloadDuration = diffTime
 
                     activity.runOnUiThread {
                         javaListener.onDownloadProgress(countTestSpeed, progressModel)
@@ -142,6 +151,8 @@ class InternetSpeedBuilder(var activity: Activity) {
 
     inner class SpeedUploadTestTask : AsyncTask<Void, Void, Void>() {
 
+        val startTime = System.currentTimeMillis()
+
         override fun doInBackground(vararg params: Void): Void? {
 
             val speedTestSocket = SpeedTestSocket()
@@ -151,8 +162,8 @@ class InternetSpeedBuilder(var activity: Activity) {
 
                 override fun onCompletion(report: SpeedTestReport) {
                     // called when download/upload is finished
-                    Log.v("Speedtest Uploadload" + countTestSpeed, "[COMPLETED] rate in octet/s : " + report.transferRateOctet)
-                    Log.v("Speedtest Uploadload" + countTestSpeed, "[COMPLETED] rate in bit/s   : " + report.transferRateBit)
+                    Log.v("Speedtest Uploadload: " + countTestSpeed, "[COMPLETED] rate in octet/s : " + report.transferRateOctet)
+                    Log.v("Speedtest Uploadload: " + countTestSpeed, "[COMPLETED] rate in bit/s   : " + report.transferRateBit)
 
                     /*progressModel.progressTotal = 100f
                     progressModel.progressUpload= 100f
@@ -173,21 +184,25 @@ class InternetSpeedBuilder(var activity: Activity) {
                 override fun onError(speedTestError: SpeedTestError, errorMessage: String) {
                     // called when a download/upload error occur
 
-                    Log.e("Speedtest Uploadload" + countTestSpeed, "[ERROR] SpeedTestError : ${speedTestError.name}")
-                    Log.e("Speedtest Uploadload" + countTestSpeed, "[ERROR] ErrorMessage : ${errorMessage}")
+                    Log.e("Speedtest Uploadload: " + countTestSpeed, "[ERROR] SpeedTestError : ${speedTestError.name}")
+                    Log.e("Speedtest Uploadload: " + countTestSpeed, "[ERROR] ErrorMessage : ${errorMessage}")
                     
                     javaListener.onUploadError(speedTestError, errorMessage)
                 }
 
                 override fun onProgress(percent: Float, report: SpeedTestReport) {
                     // called to notify download/upload progress
-                    Log.d("Speedtest Uploadload" + countTestSpeed, "[PROGRESS] progress : $percent%")
-                    Log.d("Speedtest Uploadload" + countTestSpeed, "[PROGRESS] rate in octet/s : " + report.transferRateOctet)
-                    Log.d("Speedtest Uploadload" + countTestSpeed, "[PROGRESS] rate in bit/s   : " + report.transferRateBit)
+                    Log.d("Speedtest Uploadload: " + countTestSpeed, "[PROGRESS] progress : $percent%")
+                    Log.d("Speedtest Uploadload: " + countTestSpeed, "[PROGRESS] rate in octet/s : " + report.transferRateOctet)
+                    Log.d("Speedtest Uploadload: " + countTestSpeed, "[PROGRESS] rate in bit/s   : " + report.transferRateBit)
+
+                    val endTime = System.currentTimeMillis()
+                    val diffTime = endTime - startTime
 
                     progressModel.progressTotal = percent / 2 + 50
                     progressModel.progressUpload = percent
                     progressModel.uploadSpeed= report.transferRateBit
+                    progressModel.uploadDuration= diffTime
 
                     activity.runOnUiThread {
 
@@ -202,10 +217,10 @@ class InternetSpeedBuilder(var activity: Activity) {
             })
 
             if (fixedDuration == NOT_FIXED_DURATION) {
-                speedTestSocket.startUpload(uploadUrl, 1000000)
+                speedTestSocket.startUpload(uploadUrl, UPLOAD_FILE_SIZE)
 
             } else {
-                speedTestSocket.startFixedUpload(uploadUrl, 1000000, fixedDuration)
+                speedTestSocket.startFixedUpload(uploadUrl, UPLOAD_FILE_SIZE, fixedDuration)
 
             }
 
