@@ -21,6 +21,7 @@ public class MainJavaActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
     private Adapter adapter;
+    private int oldPosition;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,19 +47,21 @@ public class MainJavaActivity extends AppCompatActivity {
 
             @Override
             public void onDownloadProgress(int count, ProgressionModel progressModel) {
-                adapter.setDataList(count, progressModel);
 
             }
 
             @Override
             public void onUploadProgress(int count, ProgressionModel progressModel) {
-                adapter.setDataList(count, progressModel);
 
             }
 
             @Override
             public void onTotalProgress(int count, ProgressionModel progressModel) {
-
+                adapter.setDataList(count, progressModel);
+                if (oldPosition < count) {
+                    oldPosition = count;
+                    recyclerView.smoothScrollToPosition(count);
+                }
             }
 
             @Override
@@ -83,7 +86,8 @@ public class MainJavaActivity extends AppCompatActivity {
                 "http://2.testdebit.info/fichiers/1Mo.dat",
                 "http://2.testdebit.info/",
                 20,
-                5000);
+                2500,
+                2500);
     }
 
     private void testDownloadSpeedByOriginal() {
