@@ -10,7 +10,7 @@ import fr.bmartel.speedtest.model.SpeedTestError
 
 class InternetSpeedBuilder(var activity: Activity) {
 
-    private val UPLOAD_FILE_SIZE = 1 * 1024 * 1024 // 10 MB
+    private val UPLOAD_FILE_SIZE = 3 * 1024 * 1024 // 3 MB
     private val NOT_FIXED_DURATION = -1
 
     private var countTestSpeed = 0
@@ -73,8 +73,6 @@ class InternetSpeedBuilder(var activity: Activity) {
 
     inner class SpeedDownloadTestTask : AsyncTask<Void, Void, String>() {
 
-        val startTime = System.currentTimeMillis()
-
         override fun doInBackground(vararg params: Void): String? {
 
             val speedTestSocket = SpeedTestSocket()
@@ -119,9 +117,7 @@ class InternetSpeedBuilder(var activity: Activity) {
                     Log.d("Speedtest Download: " + countTestSpeed, "[PROGRESS] rate in octet/s : " + report.transferRateOctet)
                     Log.d("Speedtest Download: " + countTestSpeed, "[PROGRESS] rate in bit/s   : " + report.transferRateBit)
 
-
-                    val endTime = System.currentTimeMillis()
-                    val diffTime = endTime - startTime
+                    val diffTime = report.reportTime - report.startTime
 
                     progressModel.count = countTestSpeed
                     progressModel.progressTotal = percent / 2
@@ -150,8 +146,6 @@ class InternetSpeedBuilder(var activity: Activity) {
     }
 
     inner class SpeedUploadTestTask : AsyncTask<Void, Void, Void>() {
-
-        val startTime = System.currentTimeMillis()
 
         override fun doInBackground(vararg params: Void): Void? {
 
@@ -195,9 +189,15 @@ class InternetSpeedBuilder(var activity: Activity) {
                     Log.d("Speedtest Uploadload: " + countTestSpeed, "[PROGRESS] progress : $percent%")
                     Log.d("Speedtest Uploadload: " + countTestSpeed, "[PROGRESS] rate in octet/s : " + report.transferRateOctet)
                     Log.d("Speedtest Uploadload: " + countTestSpeed, "[PROGRESS] rate in bit/s   : " + report.transferRateBit)
+                    Log.d("Speedtest Uploadload: " + countTestSpeed, "[PROGRESS] progressPercent   : " + report.progressPercent)
+                    Log.d("Speedtest Uploadload: " + countTestSpeed, "[PROGRESS] reportTime   : " + report.reportTime)
+                    Log.d("Speedtest Uploadload: " + countTestSpeed, "[PROGRESS] requestNum   : " + report.requestNum)
+                    Log.d("Speedtest Uploadload: " + countTestSpeed, "[PROGRESS] speedTestMode   : " + report.speedTestMode)
+                    Log.d("Speedtest Uploadload: " + countTestSpeed, "[PROGRESS] startTime   : " + report.startTime)
+                    Log.d("Speedtest Uploadload: " + countTestSpeed, "[PROGRESS] temporaryPacketSize   : " + report.temporaryPacketSize)
+                    Log.d("Speedtest Uploadload: " + countTestSpeed, "[PROGRESS] totalPacketSize   : " + report.totalPacketSize)
 
-                    val endTime = System.currentTimeMillis()
-                    val diffTime = endTime - startTime
+                    val diffTime = report.reportTime - report.startTime
 
                     progressModel.progressTotal = percent / 2 + 50
                     progressModel.progressUpload = percent
@@ -220,7 +220,8 @@ class InternetSpeedBuilder(var activity: Activity) {
                 speedTestSocket.startUpload(uploadUrl, UPLOAD_FILE_SIZE)
 
             } else {
-                speedTestSocket.startFixedUpload(uploadUrl, UPLOAD_FILE_SIZE, fixedDuration)
+//                speedTestSocket.startFixedUpload(uploadUrl, 100000, fixedDuration)
+                speedTestSocket.startUpload("http://2.testdebit.info/", UPLOAD_FILE_SIZE, 100)
 
             }
 
