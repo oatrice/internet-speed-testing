@@ -17,7 +17,7 @@ allprojects {
 ```groovy
 //build.gradle [app module]
 
-implementation 'com.github.oatrice:internet-speed-testing:1.0.3'
+implementation 'com.github.oatrice:internet-speed-testing:1.0.2'
 ```
 
 ![Demo](screenshot/screen2.gif)
