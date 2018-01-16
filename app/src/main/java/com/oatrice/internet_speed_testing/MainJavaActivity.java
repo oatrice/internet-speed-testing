@@ -9,8 +9,13 @@ import android.util.Log;
 
 import com.example.internet_speed_testing.InternetSpeedBuilder;
 import com.example.internet_speed_testing.ProgressionModel;
+import com.stealthcopter.networktools.Ping;
+import com.stealthcopter.networktools.ping.PingResult;
+import com.stealthcopter.networktools.ping.PingStats;
 
 import org.jetbrains.annotations.NotNull;
+
+import java.net.UnknownHostException;
 
 import fr.bmartel.speedtest.SpeedTestReport;
 import fr.bmartel.speedtest.SpeedTestSocket;
@@ -35,7 +40,6 @@ public class MainJavaActivity extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
 
         testSpeed();
-
 //        testDownloadSpeedByOriginal();
 //        testUploadSpeedByOriginal();
 
@@ -52,6 +56,11 @@ public class MainJavaActivity extends AppCompatActivity {
 
             @Override
             public void onUploadProgress(int count, ProgressionModel progressModel) {
+
+            }
+
+            @Override
+            public void onPingProgress(ProgressionModel progressModel) {
 
             }
 
@@ -86,8 +95,8 @@ public class MainJavaActivity extends AppCompatActivity {
                 "http://2.testdebit.info/fichiers/1Mo.dat",
                 "http://2.testdebit.info/",
                 20,
-                2500,
-                2500);
+                5000,
+                5000);
     }
 
     private void testDownloadSpeedByOriginal() {
@@ -99,6 +108,7 @@ public class MainJavaActivity extends AppCompatActivity {
         Log.v("Speedtest Upload: " + 000, "testUploadSpeedByOriginal");
         new UploadSpeedTestTask().execute();
     }
+
 
     public class DownloadSpeedTestTask extends AsyncTask<Void, Void, String> {
 

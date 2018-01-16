@@ -3,10 +3,14 @@ package com.example.internet_speed_testing
 import android.app.Activity
 import android.os.AsyncTask
 import android.util.Log
+import com.stealthcopter.networktools.Ping
+import com.stealthcopter.networktools.ping.PingResult
+import com.stealthcopter.networktools.ping.PingStats
 import fr.bmartel.speedtest.SpeedTestReport
 import fr.bmartel.speedtest.SpeedTestSocket
 import fr.bmartel.speedtest.inter.IRepeatListener
 import fr.bmartel.speedtest.model.SpeedTestError
+import java.net.UnknownHostException
 
 class InternetSpeedBuilder(var activity: Activity) {
 
@@ -51,6 +55,7 @@ class InternetSpeedBuilder(var activity: Activity) {
         this.LIMIT = limitCount
         this.fixedDownloadDuration = fixedDownloadDuration
         this.fixedUploadDuration = fixedUploadDuration
+
         startTestDownload()
     }
 
@@ -64,10 +69,10 @@ class InternetSpeedBuilder(var activity: Activity) {
         this.onTotalProgressListener = onTotalProgress
     }
 
-
     private fun startTestDownload() {
         progressModel = ProgressionModel()
         SpeedDownloadTestTask().execute()
+        startTestPing()
     }
 
     private fun startTestUpload() {
@@ -75,9 +80,14 @@ class InternetSpeedBuilder(var activity: Activity) {
 
     }
 
+    private fun startTestPing() {
+        SpeedTestPing().execute()
+    }
+
     interface OnEventInternetSpeedListener {
         fun onDownloadProgress(count: Int, progressModel: ProgressionModel)
         fun onUploadProgress(count: Int, progressModel: ProgressionModel)
+        fun onPingProgress(pingResult: ProgressionModel)
         fun onTotalProgress(count: Int, progressModel: ProgressionModel)
         fun onDownloadError(speedTestError: SpeedTestError, errorMessage: String)
         fun onUploadError(speedTestError: SpeedTestError, errorMessage: String)
@@ -110,8 +120,6 @@ class InternetSpeedBuilder(var activity: Activity) {
                     sendDownloadData(report)
                 }
             })
-
-
 
             return null
         }
@@ -186,4 +194,34 @@ class InternetSpeedBuilder(var activity: Activity) {
         }
     }
 
+    inner class SpeedTestPing : AsyncTask<Void, Void, String>() {
+
+        override fun doInBackground(vararg voids: Void): String? {
+
+            try {
+                Ping.onAddress("www.baidu.com").setTimeOutMillis(1000).setTimes(5).doPing(object : Ping.PingListener {
+                    override fun onResult(pingResult: PingResult) {
+                        sendPingData(pingResult)
+                        Log.e("onPing3 : ", "Ping" + pingResult.getTimeTaken())
+                    }
+
+                    override fun onFinished(pingStats: PingStats) {
+
+                        Log.e("onPing2 : ", "Ping" + pingStats)
+                    }
+                })
+            } catch (e: UnknownHostException) {
+                e.printStackTrace()
+            }
+
+            return null
+        }
+    }
+
+    private fun sendPingData(pingResult: PingResult) {
+        activity.runOnUiThread {
+            progressModel.pingDuration = pingResult.timeTaken
+            javaListener.onPingProgress(progressModel)
+        }
+    }
 }
