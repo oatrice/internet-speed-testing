@@ -17,6 +17,7 @@ class InternetSpeedBuilder(var activity: Activity) {
     lateinit var onDownloadProgressListener: ()->Unit
     lateinit var onUploadProgressListener: ()->Unit
     lateinit var onTotalProgressListener: ()->Unit
+    lateinit var onProgressCompletionListener: ()->Unit
     private lateinit var progressModel: ProgressionModel
 
     fun start(url: String, limitCount: Int) {
@@ -29,10 +30,11 @@ class InternetSpeedBuilder(var activity: Activity) {
         this.javaListener = javaListener
     }
 
-    fun setOnEventInternetSpeedListener(onDownloadProgress: ()->Unit, onUploadProgress: ()->Unit, onTotalProgress: ()->Unit) {
+    fun setOnEventInternetSpeedListener(onDownloadProgress: ()->Unit, onUploadProgress: ()->Unit, onTotalProgress: ()->Unit, onProgressComplete: ()-> Unit) {
         this.onDownloadProgressListener = onDownloadProgress
         this.onUploadProgressListener = onUploadProgress
         this.onTotalProgressListener = onTotalProgress
+        this.onProgressCompletionListener = onProgressComplete
     }
 
 
@@ -50,6 +52,7 @@ class InternetSpeedBuilder(var activity: Activity) {
         fun onDownloadProgress(count: Int, progressModel: ProgressionModel)
         fun onUploadProgress(count: Int, progressModel: ProgressionModel)
         fun onTotalProgress(count: Int, progressModel: ProgressionModel)
+        fun onProgressCompletion(boolean: Boolean, progressModel: ProgressionModel)
     }
 
     inner class SpeedDownloadTestTask : AsyncTask<Void, Void, String>() {
@@ -84,6 +87,11 @@ class InternetSpeedBuilder(var activity: Activity) {
 
                     }*/
 
+                    if(progressModel.progressDownloadCompletion && progressModel.progressUploadCompletion){
+                        progressModel.progressCompletion = true
+                        javaListener.onProgressCompletion(true, progressModel)
+                    }
+
                     startTestUpload()
 
                 }
@@ -101,6 +109,7 @@ class InternetSpeedBuilder(var activity: Activity) {
                     progressModel.progressTotal = percent / 2
                     progressModel.progressDownload = percent
                     progressModel.downloadSpeed = report.transferRateBit
+                    progressModel.progressDownloadCompletion = true
 
                     activity.runOnUiThread {
                         javaListener.onDownloadProgress(countTestSpeed, progressModel)
@@ -139,6 +148,10 @@ class InternetSpeedBuilder(var activity: Activity) {
                         javaListener.onTotalProgress(countTestSpeed, progressModel)
                     }*/
 
+                    if(progressModel.progressDownloadCompletion && progressModel.progressUploadCompletion){
+                        progressModel.progressCompletion = true
+                        javaListener.onProgressCompletion(true, progressModel)
+                    }
 
                     countTestSpeed++
                     if (countTestSpeed < LIMIT) {
@@ -159,6 +172,7 @@ class InternetSpeedBuilder(var activity: Activity) {
                     progressModel.progressTotal = percent / 2 + 50
                     progressModel.progressUpload = percent
                     progressModel.uploadSpeed= report.transferRateBit
+                    progressModel.progressUploadCompletion = true
 
                     activity.runOnUiThread {
 
