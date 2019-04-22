@@ -31,4 +31,8 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     implementation 'com.android.support:recyclerview-v7:26.1.0'
     implementation project(':internet-speed-testing')
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+}
+repositories {
+    mavenCentral()
 }
