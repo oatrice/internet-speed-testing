@@ -28,6 +28,10 @@ public class Adapter extends RecyclerView.Adapter<Adapter.MyViewHolder> {
 
     }
 
+    public void clearData() {
+        dataList.clear();
+    }
+
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.view_item, parent, false);
