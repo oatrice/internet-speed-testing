@@ -2,12 +2,12 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://D:\Work\Project\Android\Git clone\internet-speed-testing\Internet-Speed_Testing.iml" filepath="D:\Work\Project\Android\Git clone\internet-speed-testing\Internet-Speed_Testing.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Github-internet-speed-testing.iml" filepath="$PROJECT_DIR$/Github-internet-speed-testing.iml" />
+      <module fileurl="file://D:/Work/Project/Android/Git clone/internet-speed-testing/Internet-Speed_Testing.iml" filepath="D:/Work/Project/Android/Git clone/internet-speed-testing/Internet-Speed_Testing.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://D:\Work\Project\Android\Git clone\internet-speed-testing\app\app.iml" filepath="D:\Work\Project\Android\Git clone\internet-speed-testing\app\app.iml" />
       <module fileurl="file://$PROJECT_DIR$/internet-speed-testing.iml" filepath="$PROJECT_DIR$/internet-speed-testing.iml" />
-      <module fileurl="file://$PROJECT_DIR$/internet-speed-testing/internet-speed-testing.iml" filepath="$PROJECT_DIR$/internet-speed-testing/internet-speed-testing.iml" />
-      <module fileurl="file://D:\Work\Project\Android\Git clone\internet-speed-testing\internet-speed-testing\internet-speed-testing.iml" filepath="D:\Work\Project\Android\Git clone\internet-speed-testing\internet-speed-testing\internet-speed-testing.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/internet-speed-testing-app.iml" filepath="$PROJECT_DIR$/app/internet-speed-testing-app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/internet-speed-testing/internet-speed-testing-internet-speed-testing.iml" filepath="$PROJECT_DIR$/internet-speed-testing/internet-speed-testing-internet-speed-testing.iml" />
     </modules>
   </component>
 </project>
