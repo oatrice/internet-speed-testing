@@ -33,17 +33,6 @@ class InternetSpeedBuilder(var activity: Activity) {
         this.LIMIT = 0
         downloadTestSocket.forceStopTask()
         uploadTestSocket.forceStopTask()
-//        if (this::downloadTestSocket.isInitialized) {
-//            downloadTestSocket.forceStopTask()
-//        }
-//
-//        if (this::uploadTestSocket.isInitialized) {
-//            uploadTestSocket.forceStopTask()
-//        }
-//
-//        progressModel.progressDownload = 0.toFloat()
-//        progressModel.progressTotal = 0.toFloat()
-//        progressModel.progressUpload = 0.toFloat()
     }
 
     fun setOnEventInternetSpeedListener(javaListener: OnEventInternetSpeedListener) {
