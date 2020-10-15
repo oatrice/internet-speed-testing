@@ -67,8 +67,8 @@ class InternetSpeedBuilder(var activity: Activity) {
 
                 override fun onCompletion(report: SpeedTestReport) {
                     // called when download/upload is finished
-                    Log.v("speedtest Download" + countTestSpeed, "[COMPLETED] rate in octet/s : " + report.transferRateOctet)
-                    Log.v("speedtest Download" + countTestSpeed, "[COMPLETED] rate in bit/s   : " + report.transferRateBit)
+                    Log.v("speedtest Download $countTestSpeed", "[COMPLETED] rate in octet/s : ${report.transferRateOctet}")
+                    Log.v("speedtest Download $countTestSpeed" , "[COMPLETED] rate in bit/s   : ${report.transferRateBit}")
 
                     /*downloadProgressModel.progressTotal = 50f
                     downloadProgressModel.progressDownload = 100f
@@ -94,9 +94,9 @@ class InternetSpeedBuilder(var activity: Activity) {
 
                 override fun onProgress(percent: Float, report: SpeedTestReport) {
                     // called to notify download/upload progress
-                    Log.v("speedtest Download" + countTestSpeed, "[PROGRESS] progress : $percent%")
-                    Log.v("speedtest Download" + countTestSpeed, "[PROGRESS] rate in octet/s : " + report.transferRateOctet)
-                    Log.v("speedtest Download" + countTestSpeed, "[PROGRESS] rate in bit/s   : " + report.transferRateBit)
+                    Log.v("speedtest Download $countTestSpeed", "[PROGRESS] progress : $percent%")
+                    Log.v("speedtest Download $countTestSpeed", "[PROGRESS] rate in octet/s : ${report.transferRateOctet}")
+                    Log.v("speedtest Download $countTestSpeed", "[PROGRESS] rate in bit/s   : ${report.transferRateOctet}")
 
                     progressModel.progressTotal = percent / 2
                     progressModel.progressDownload = percent
@@ -127,8 +127,8 @@ class InternetSpeedBuilder(var activity: Activity) {
 
                 override fun onCompletion(report: SpeedTestReport) {
                     // called when download/upload is finished
-                    Log.v("speedtest Upload" + countTestSpeed, "[COMPLETED] rate in octet/s : " + report.transferRateOctet)
-                    Log.v("speedtest Upload" + countTestSpeed, "[COMPLETED] rate in bit/s   : " + report.transferRateBit)
+                    Log.v("speedtest Upload $countTestSpeed", "[COMPLETED] rate in octet/s : ${report.transferRateOctet}")
+                    Log.v("speedtest Upload $countTestSpeed", "[COMPLETED] rate in bit/s   : ${report.transferRateBit}")
 
                     /*progressModel.progressTotal = 100f
                     progressModel.progressUpload= 100f
@@ -152,9 +152,9 @@ class InternetSpeedBuilder(var activity: Activity) {
 
                 override fun onProgress(percent: Float, report: SpeedTestReport) {
                     // called to notify download/upload progress
-                    Log.v("speedtest Upload" + countTestSpeed, "[PROGRESS] progress : $percent%")
-                    Log.v("speedtest Upload" + countTestSpeed, "[PROGRESS] rate in octet/s : " + report.transferRateOctet)
-                    Log.v("speedtest Upload" + countTestSpeed, "[PROGRESS] rate in bit/s   : " + report.transferRateBit)
+                    Log.v("speedtest Upload $countTestSpeed", "[PROGRESS] progress : $percent%")
+                    Log.v("speedtest Upload $countTestSpeed", "[PROGRESS] rate in octet/s : ${report.transferRateOctet}")
+                    Log.v("speedtest Upload $countTestSpeed", "[PROGRESS] rate in bit/s   : ${report.transferRateBit}")
 
                     progressModel.progressTotal = percent / 2 + 50
                     progressModel.progressUpload = percent
