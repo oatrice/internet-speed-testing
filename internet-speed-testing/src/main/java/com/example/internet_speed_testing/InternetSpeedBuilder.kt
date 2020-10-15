@@ -96,7 +96,7 @@ class InternetSpeedBuilder(var activity: Activity) {
                     // called to notify download/upload progress
                     Log.v("speedtest Download $countTestSpeed", "[PROGRESS] progress : $percent%")
                     Log.v("speedtest Download $countTestSpeed", "[PROGRESS] rate in octet/s : ${report.transferRateOctet}")
-                    Log.v("speedtest Download $countTestSpeed", "[PROGRESS] rate in bit/s   : ${report.transferRateOctet}")
+                    Log.v("speedtest Download $countTestSpeed", "[PROGRESS] rate in bit/s   : ${report.transferRateBit}")
 
                     progressModel.progressTotal = percent / 2
                     progressModel.progressDownload = percent
