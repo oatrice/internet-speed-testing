@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">Internet Speed Testing</string>
+    <string name="speedtest_btn_name">Start</string>
+    <string name="speed_test_unit">0 mb/s</string>
+    <string name="download_speed">download</string>
+    <string name="upload_speed">upload</string>
+    <string name="total_speed">total</string>
+
 </resources>

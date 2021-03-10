@@ -27,6 +27,11 @@ public class MainJavaActivity extends AppCompatActivity {
         InternetSpeedBuilder builder = new InternetSpeedBuilder(this);
         builder.setOnEventInternetSpeedListener(new InternetSpeedBuilder.OnEventInternetSpeedListener() {
             @Override
+            public void onProgressCompletion(boolean b, ProgressionModel progressModel) {
+
+            }
+
+            @Override
             public void onDownloadProgress(int count, ProgressionModel progressModel) {
 
             }
