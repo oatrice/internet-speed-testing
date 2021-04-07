@@ -10,21 +10,21 @@ import com.example.internet_speed_testing.ProgressionModel;
 
 public class MainJavaActivity extends AppCompatActivity {
 
-    private RecyclerView recyclerView;
     private Adapter adapter;
+    private InternetSpeedBuilder builder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        recyclerView = findViewById(R.id.recyclerview);
+        RecyclerView recyclerView = findViewById(R.id.recyclerview);
 
         adapter = new Adapter();
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
 
-        InternetSpeedBuilder builder = new InternetSpeedBuilder(this);
+        builder = new InternetSpeedBuilder(this);
         builder.setOnEventInternetSpeedListener(new InternetSpeedBuilder.OnEventInternetSpeedListener() {
             @Override
             public void onDownloadProgress(int count, ProgressionModel progressModel) {
@@ -42,8 +42,18 @@ public class MainJavaActivity extends AppCompatActivity {
 
             }
         });
-        builder.start("http://2.testdebit.info/fichiers/1Mo.dat", 20);
 
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        builder.stop();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        builder.start("http://2.testdebit.info/fichiers/1Mo.dat", 20);
+    }
 }

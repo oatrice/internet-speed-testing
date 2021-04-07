@@ -11,25 +11,34 @@ import fr.bmartel.speedtest.model.SpeedTestError
 class InternetSpeedBuilder(var activity: Activity) {
 
     private var countTestSpeed = 0
-    private var LIMIT = 3
-    lateinit var url: String
-    lateinit var javaListener: OnEventInternetSpeedListener
-    lateinit var onDownloadProgressListener: ()->Unit
-    lateinit var onUploadProgressListener: ()->Unit
-    lateinit var onTotalProgressListener: ()->Unit
+    private var limitCount = 3
+    private lateinit var onDownloadProgressListener: () -> Unit
+    private lateinit var onUploadProgressListener: () -> Unit
+    lateinit var onTotalProgressListener: () -> Unit
+
+    private var taskCanceled = false
+
     private lateinit var progressModel: ProgressionModel
 
-    fun start(url: String, limitCount: Int) {
+    lateinit var url: String
+    lateinit var javaListener: OnEventInternetSpeedListener
+
+    fun start(url: String, limitCount: Int = this.limitCount) {
         this.url = url
-        this.LIMIT = limitCount
+        this.limitCount = limitCount
         startTestDownload()
+        taskCanceled = false
+    }
+
+    fun stop() {
+        taskCanceled = true
     }
 
     fun setOnEventInternetSpeedListener(javaListener: OnEventInternetSpeedListener) {
         this.javaListener = javaListener
     }
 
-    fun setOnEventInternetSpeedListener(onDownloadProgress: ()->Unit, onUploadProgress: ()->Unit, onTotalProgress: ()->Unit) {
+    fun setOnEventInternetSpeedListener(onDownloadProgress: () -> Unit, onUploadProgress: () -> Unit, onTotalProgress: () -> Unit) {
         this.onDownloadProgressListener = onDownloadProgress
         this.onUploadProgressListener = onUploadProgress
         this.onTotalProgressListener = onTotalProgress
@@ -60,10 +69,10 @@ class InternetSpeedBuilder(var activity: Activity) {
 
         override fun doInBackground(vararg params: Void): String? {
 
-            val speedTestSocket = SpeedTestSocket()
+            val downloadSocket = SpeedTestSocket()
 
             // add a listener to wait for speedtest completion and progress
-            speedTestSocket.addSpeedTestListener(object : ISpeedTestListener {
+            downloadSocket.addSpeedTestListener(object : ISpeedTestListener {
 
                 override fun onCompletion(report: SpeedTestReport) {
                     // called when download/upload is finished
@@ -110,7 +119,7 @@ class InternetSpeedBuilder(var activity: Activity) {
                 }
             })
 
-            speedTestSocket.startDownload(url)
+            downloadSocket.startDownload(url)
 
             return null
         }
@@ -120,10 +129,10 @@ class InternetSpeedBuilder(var activity: Activity) {
 
         override fun doInBackground(vararg params: Void): Void? {
 
-            val speedTestSocket = SpeedTestSocket()
+            val uploadSocket = SpeedTestSocket()
 
             // add a listener to wait for speedtest completion and progress
-            speedTestSocket.addSpeedTestListener(object : ISpeedTestListener {
+            uploadSocket.addSpeedTestListener(object : ISpeedTestListener {
 
                 override fun onCompletion(report: SpeedTestReport) {
                     // called when download/upload is finished
@@ -141,7 +150,7 @@ class InternetSpeedBuilder(var activity: Activity) {
 
 
                     countTestSpeed++
-                    if (countTestSpeed < LIMIT) {
+                    if (countTestSpeed < limitCount && !taskCanceled) {
                         startTestDownload()
                     }
                 }
@@ -158,11 +167,11 @@ class InternetSpeedBuilder(var activity: Activity) {
 
                     progressModel.progressTotal = percent / 2 + 50
                     progressModel.progressUpload = percent
-                    progressModel.uploadSpeed= report.transferRateBit
+                    progressModel.uploadSpeed = report.transferRateBit
 
                     activity.runOnUiThread {
 
-                        if (countTestSpeed < LIMIT) {
+                        if (countTestSpeed < limitCount) {
                             javaListener.onUploadProgress(countTestSpeed, progressModel)
                             javaListener.onTotalProgress(countTestSpeed, progressModel)
 
@@ -172,7 +181,7 @@ class InternetSpeedBuilder(var activity: Activity) {
                 }
             })
 
-            speedTestSocket.startDownload(url)
+            uploadSocket.startDownload(url)
 
             return null
         }
