@@ -1,9 +1,11 @@
 package com.oatrice.internet_speed_testing;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.internet_speed_testing.InternetSpeedBuilder;
 import com.example.internet_speed_testing.ProgressionModel;
@@ -27,17 +29,17 @@ public class MainJavaActivity extends AppCompatActivity {
         InternetSpeedBuilder builder = new InternetSpeedBuilder(this);
         builder.setOnEventInternetSpeedListener(new InternetSpeedBuilder.OnEventInternetSpeedListener() {
             @Override
-            public void onDownloadProgress(int count, ProgressionModel progressModel) {
+            public void onDownloadProgress(int count, @NonNull ProgressionModel progressModel) {
 
             }
 
             @Override
-            public void onUploadProgress(int count, ProgressionModel progressModel) {
+            public void onUploadProgress(int count, @NonNull ProgressionModel progressModel) {
 
             }
 
             @Override
-            public void onTotalProgress(int count, ProgressionModel progressModel) {
+            public void onTotalProgress(int count, @NonNull ProgressionModel progressModel) {
                 adapter.setDataList(count, progressModel);
 
             }
